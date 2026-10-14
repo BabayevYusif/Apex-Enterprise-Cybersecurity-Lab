@@ -1,0 +1,10 @@
+flowchart LR
+    WAF[SafeLine WAF events] --> SPL[Splunk]
+    IDS[Suricata IPS/IDS events] --> SPL
+    WEB[Nginx web logs] --> SPL
+    XDR[Bitdefender XDR logs] --> SPL
+    SPL --> DATA[Select WAF + IPS/IDS only]
+    DATA --> PY[Python anomaly-analysis job]
+    PY --> JSON[JSON anomaly output]
+    JSON --> IDX[Splunk ML-results index]
+    IDX --> DASH[Search / dashboard / alert]

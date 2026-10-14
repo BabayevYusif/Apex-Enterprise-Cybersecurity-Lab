@@ -1,0 +1,11 @@
+erDiagram
+    USERS {
+        BIGINT id PK
+        VARCHAR firstname
+        VARCHAR lastname
+        VARCHAR full_name "legacy or optional"
+        VARCHAR email UK
+        TEXT password_hash
+        VARCHAR role
+        TIMESTAMP created_at
+    }

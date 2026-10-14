@@ -1,0 +1,20 @@
+flowchart TB
+    INTERNET[Internet / public users] --> DNS[Public DNS]
+    DNS --> WAF[SafeLine WAF]
+    WAF --> WEB[Nginx reverse proxy / web EC2]
+    WEB --> EXT[React + Vite external frontend]
+    WEB --> API[Node.js + Express API / PM2]
+    API --> DB[(PostgreSQL / private access)]
+    STAFF[Authorized staff] --> VPN[OpenVPN]
+    VPN --> INT[Intranet frontend]
+    INT --> IAPI[Intranet Node.js + Express API]
+    IAPI --> DB
+    WAF -. WAF events .-> SIEM[Splunk Enterprise]
+    WEB -. Access/error logs .-> SIEM
+    IDS[Suricata IPS/IDS] -. Network events .-> SIEM
+    XDR[Bitdefender GravityZone] -. Endpoint telemetry .-> SIEM
+    SIEM --> ML[Python anomaly analysis: WAF + IPS/IDS]
+    ML --> OUT[JSON anomaly events]
+    OUT --> SIEM
+    SIEM -. Ticket automation: verify .-> ZAM[Zammad Service Desk]
+    HONEY[T-Pot honeypot] -. Attack observation .-> EVIDENCE[Investigation evidence]
